@@ -81,7 +81,7 @@ function insert_subflags(){
                     <div id="subflag_hints_` + id + `"> </div>`;
             // if the subflag is not yet solved -> insert a formfield with a submit button
             } else {
-                var keys = `<form id="subflag_form` + id + `" onsubmit="submit_subflag(event, ${id})">
+                var keys = `<form id="subflag_form` + id + `" onsubmit="submit_subflag(event, ${id})" class="my-2">
                     <p class="form-text">
                         ` + desc + `
                         | Weight:  <b>+` + points + `</b>
@@ -91,7 +91,7 @@ function insert_subflags(){
                             <input type="text" class="form-control chal-subflag_key" name="answer" placeholder=" ` + placeholder + `" required>
                         </div>
                         <div class="col-md-3 form-group" id=submit style="margin-top: 6px;">
-                            <input type="submit" value="Submit" class="btn btn-md btn-outline-secondary float-right">
+                            <input type="submit" value="Submit" class="btn btn-md btn-outline-secondary float-right w-100">
                         </div>
                     </div>
                 </form>
