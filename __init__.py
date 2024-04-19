@@ -225,7 +225,7 @@ class Subflag(Resource):
             # creates new entry in Subflag table with the request arguments
             subflag = Subflags(
                 challenge_id = data["challenge_id"],
-                challenge_name = data["challenge_name"],
+                subflag_name = data["subflag_name"],
                 subflag_desc = data["subflag_desc"],
                 subflag_placeholder = data["subflag_placeholder"],
                 subflag_key = data["subflag_key"],
