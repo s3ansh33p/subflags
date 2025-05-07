@@ -1,12 +1,6 @@
 CTFd._internal.challenge.data = undefined;
 
-// TODO: Remove in CTFd v4.0
-CTFd._internal.challenge.renderer = null;
-
 CTFd._internal.challenge.preRender = function() {};
-
-// TODO: Remove in CTFd v4.0
-CTFd._internal.challenge.render = null;
 
 CTFd._internal.challenge.postRender = async function() {
     // delay
@@ -36,7 +30,11 @@ function insert_subflags(){
     let challenge_id = parseInt(CTFd.lib.$('#challenge-id').val())
 
     // gets the info needed for the subflag view from the api endpoint
-    $.get(`/api/v1/subflags/challenges/${challenge_id}/view`).done( function(data) {
+    CTFd.fetch(`/api/v1/subflags/challenges/${challenge_id}/view`, {
+            method: "GET"
+        })
+        .then((response) => response.json())
+        .then((data) => {
 
         // creates an array of subflag ids and sorts them according to their order
         let order_array = [];
@@ -49,7 +47,7 @@ function insert_subflags(){
 
         // insert subflags headline if at least one subflag exists
         if (order_array.length > 0) {
-            $("#subflags").append("<h5>Optional Subflags:</h5>");
+            CTFd.lib.$("#subflags").append("<h5 class='mt-4'>Subflags:</h5>");
         }
         
 
@@ -66,40 +64,41 @@ function insert_subflags(){
                 placeholder = "Submit subflag for extra awards.";
             }
 
-            // if the subflag is already soved -> insert a disabled form field with lightgreen background and an delete button 
+            // if the subflag is already solved -> insert a disabled form field and an delete button 
             if (subflag_solved_by_me) {
                 var keys = `<form id="subflag_form` + id + `">
                         <p class="form-text">
                             ` + desc + `
-                            | Weight:  <b>+` + points + `</b>
+                            | Points:  <b>+` + points + `</b>
                         </p> 
                         <div class="row" style="margin-bottom: 10px;">
-                            <div class="col-md-9">
-                                <input type="text" class="form-control chal-subflag_key" name="answer" placeholder="Subflag Solved!" style="background-color:#f5fff1;" disabled>
+                            <div class="col-md-12">
+                                <input type="text" class="form-control chal-subflag_key" name="answer" placeholder="Subflag Solved!" disabled>
                             </div>
                             
                         </div>
                     </form>
                     <div id="subflag_hints_` + id + `"> </div>`;
             // if the subflag is not yet solved -> insert a formfield with a submit button
+            // note: text-light is a theme specific change, remove or edit as needed
             } else {
                 var keys = `<form id="subflag_form` + id + `" onsubmit="submit_subflag(event, ${id})" class="my-2">
                     <p class="form-text">
                         ` + desc + `
-                        | Weight:  <b>+` + points + `</b>
+                        | Points:  <b>+` + points + `</b>
                     </p>
                     <div class="row">
-                        <div class="col-md-9 form-group">
+                        <div class="col-md-8 form-group">
                             <input type="text" class="form-control chal-subflag_key" name="answer" placeholder=" ` + placeholder + `" required>
                         </div>
-                        <div class="col-md-3 form-group" id=submit style="margin-top: 6px;">
-                            <input type="submit" value="Submit" class="btn btn-md btn-outline-secondary float-right w-100">
+                        <div class="col-md-4 form-group" id=submit>
+                            <input type="submit" value="Submit" class="btn btn-md btn-outline-secondary text-light float-right w-100">
                         </div>
                     </div>
                 </form>
                 <div id="subflag_hints_` + id + `"> </div>`;
           }      
-          $("#subflags").append(keys);      
+          CTFd.lib.$("#subflags").append(keys);      
           
           // creates an array of hint ids and sorts them according to their order
           let hintdata = [];
@@ -115,7 +114,7 @@ function insert_subflags(){
         }
         // include headline for main flag at the end
         if (order_array.length > 0) {
-            $("#subflags").append("<h5>Main Flag:</h5>");
+            CTFd.lib.$("#subflags").append("<h5 class='mt-4'>Main Flag:</h5>");
         }
     });
 }
@@ -133,7 +132,7 @@ function move_subflag_hints(subflag_id, hintdata) {
 // input: form event containing: subflag id, answer
 function submit_subflag(event, subflag_id) {
     event.preventDefault();
-    const params = $(event.target).serializeJSON(true);
+    const params = Object.fromEntries(new FormData(event.target).entries());
 
     // calls the api endpoint to attach a hint to a subflag
     CTFd.fetch(`/api/v1/subflags/solve/${subflag_id}`, {
