@@ -52,11 +52,11 @@ function insert_subflags(){
                                 <small class="form-text text-muted">
                                     The Subflag Key:
                                 </small>
-                                <input type="text" class="form-control chal" name="subflag_placeholder" value="` + key + `" required>
+                                <input type="text" class="form-control chal" name="subflag_key" value="` + key + `" required>
                                 <small class="form-text text-muted">
                                     The Subflag Placeholder:
                                 </small>
-                                <input type="text" class="form-control chal" name="subflag_key" value="` + placeholder + `" required>
+                                <input type="text" class="form-control chal" name="subflag_placeholder" value="` + placeholder + `" required>
                                 <small class="form-text text-muted">
                                     The Subflag Order:
                                 </small>
