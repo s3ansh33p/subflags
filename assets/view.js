@@ -89,7 +89,7 @@ function insert_subflags(){
                     </p>
                     <div class="row">
                         <div class="col-md-8 form-group">
-                            <input type="text" class="form-control chal-subflag_key" name="answer" placeholder=" ` + placeholder + `" required>
+                            <input type="text" class="form-control chal-subflag_key" name="answer" placeholder="` + placeholder + `" required>
                         </div>
                         <div class="col-md-4 form-group" id=submit>
                             <input type="submit" value="Submit" class="btn btn-md btn-outline-secondary text-light float-right w-100">
